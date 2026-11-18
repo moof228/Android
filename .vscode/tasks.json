@@ -1,0 +1,54 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build-clang",
+      "type": "shell",
+      "command": "clang",
+      "args": [
+        "-g",
+        "-O0",
+        "-fno-omit-frame-pointer",
+        "-o",
+        "${workspaceFolder}/qemu-debug/app",
+        "${workspaceFolder}/qemu-debug/app.c"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/qemu-debug"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "qemu-gdb-server",
+      "type": "shell",
+      "command": "${workspaceFolder}/qemu-debug/scripts/run-qemu-gdb.sh",
+      "args": ["${workspaceFolder}/qemu-debug/app"],
+      "options": {
+        "cwd": "${workspaceFolder}/qemu-debug",
+        "env": {
+          "QEMU_GDB_PORT": "1234"
+        }
+      },
+      "dependsOn": "build-clang",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "qemu-gdb",
+        "pattern": {
+          "regexp": "^(.*)$",
+          "file": 1,
+          "location": 1,
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": "QEMU_GDB_READY.*"
+        }
+      }
+    }
+  ]
+}
