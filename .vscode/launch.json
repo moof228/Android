@@ -2,7 +2,30 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "QEMU + Clang (local :1234)",
+      "name": "QEMU + Clang + LLDB (local :1234)",
+      "type": "lldb",
+      "request": "custom",
+      "preLaunchTask": "qemu-gdb-server",
+      "targetCreateCommands": [
+        "target create ${workspaceFolder}/qemu-debug/app"
+      ],
+      "processCreateCommands": [
+        "gdb-remote 127.0.0.1:1234"
+      ]
+    },
+    {
+      "name": "QEMU + Clang + LLDB (remote / attach)",
+      "type": "lldb",
+      "request": "custom",
+      "targetCreateCommands": [
+        "target create ${workspaceFolder}/qemu-debug/app"
+      ],
+      "processCreateCommands": [
+        "gdb-remote 127.0.0.1:1234"
+      ]
+    },
+    {
+      "name": "QEMU + Clang + GDB (local :1234)",
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/qemu-debug/app",
@@ -22,7 +45,7 @@
       ]
     },
     {
-      "name": "QEMU + Clang (remote host)",
+      "name": "QEMU + Clang + GDB (remote host)",
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/qemu-debug/app",
@@ -41,7 +64,7 @@
       ]
     },
     {
-      "name": "Attach only (QEMU already running)",
+      "name": "Attach GDB only (QEMU already running)",
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/qemu-debug/app",
