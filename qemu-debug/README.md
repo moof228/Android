@@ -37,6 +37,8 @@ gdb ./app
 
 В VS Code: **QEMU + Clang + LLDB (local :1234)** или **remote / attach** (нужен CodeLLDB).
 
+В `launch.json` для QEMU/gdbserver у CodeLLDB стоит `"request": "attach"` + `processCreateCommands: ["gdb-remote …"]` — так в [мануале CodeLLDB](https://github.com/vadimcn/codelldb/blob/master/MANUAL.md) (секция *Connecting to a gdbserver-style agent*). `"custom"` тут не нужен: процесс уже существует (stub QEMU), клиент только подключается.
+
 В терминале:
 
 ```bash
